@@ -85,13 +85,13 @@ mavenPublishing {
     // Coordinates
     coordinates(
         groupId = "io.github.am-leon",
-        artifactId = "cmp-navigation",
+        artifactId = "cmp-utilities",
         version = version.toString()
     )
 
     // POM metadata
     pom {
-        name.set("Leon Compose Navigation")
+        name.set("Leon Utilities")
         description.set(providers.gradleProperty("POM_DESCRIPTION").get())
         inceptionYear.set("2026")
         url.set(providers.gradleProperty("POM_URL").get())
