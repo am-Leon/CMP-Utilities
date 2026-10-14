@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="share">مشاركة</string>
+    <string name="share_using">مشاركة بواسطة</string>
+    <string name="whatsapp_not_installed">برجاء تثبیت تطبیق واتس اب على جهازك</string>
+    <string name="gmail_not_installed">برجاء تثبيت تطبيق جي ميل على جهازك</string>
+    <string name="arabic">اللغة العربية</string>
+    <string name="english">اللغة الإنجليزية</string>
+
+    <!-- Required field validations -->
+    <string name="required">هذا الحقل مطلوب</string>
+    <string name="field_should_not_be_empty">لا يمكن ترك هذا الحقل فارغًا</string>
+    <string name="request_key_missing">هناك مفتاح مفقود يجب إرساله إلى فئة الطلب</string>
+    <string name="unknown_error_occur">حدث خطأ غير معروف!!</string>
+
+    <!-- Character count validations -->
+    <string name="character_range_min_max">يرجى إدخال بين %1$s و %2$s حرفًا</string>
+    <string name="character_range_min_only">يرجى إدخال %1$s أحرف على الأقل</string>
+    <string name="character_range_max_only">يرجى إدخال أقل من %1$s حرفًا</string>
+    <string name="character_range_exact">يرجى إدخال %1$s أحرف بالضبط</string>
+    <string name="invalid_character_count">عدد الأحرف غير صالح</string>
+
+    <!-- Password validations -->
+    <string name="at_least_8_characters_and_less_than_50">على الأقل 8 أحرف و على الأكثر 50 حرفا</string>
+    <string name="at_least_one_uppercase">حرف واحد كبير على الأقل (مثل: A، B، C)</string>
+    <string name="at_least_one_lowercase">حرف واحد صغير على الأقل (مثل: a، b، c)</string>
+    <string name="at_least_one_number">رقم واحد على الأقل (مثل: 1، 2، 3)</string>
+    <string name="at_least_one_special_char">رمز خاص واحد على الأقل (مثل: !، @، #، $، %%)</string>
+    <string name="password_is_not_valid">كلمة المرور غير صحيحة</string>
+    <string name="matched">متطابقان</string>
+
+    <!-- Format validations -->
+    <string name="email_not_valid">تنسيق البريد الإلكتروني غير صحيح. يرجى إدخال عنوان بريد إلكتروني صحيح (على سبيل المثال، example@domain.com)</string>
+    <string name="phone_not_valid">رقم الجوال غير صحيح</string>
+    <string name="website_domain_is_not_valid">نطاق الموقع غير صحيح</string>
+    <string name="website_protocol_is_not_valid">بروتوكول الموقع مطلوب (http:// أو https://)</string>
+    <string name="website_url_contains_spaces">يجب ألا يحتوي الرابط على مسافات</string>
+    <string name="repeated_password_are_not_the_same">كلمة المرور المكررة غير متطابقة</string>
+    <string name="postal_code_invalid">الرمز البريدي غير صالح</string>
+    <string name="version_is_not_valid">يرجى إدخال رقم إصدار صالح بالتنسيق XX.YY.ZZ (مثال: 1.2.3)</string>
+    <string name="latitude_is_not_valid">خط العرض غير صالح</string>
+    <string name="longitude_is_not_valid">خط الطول غير صالح</string>
+
+    <!-- Numbers -->
+    <string name="should_not_zero">القيمة غير صالحة</string>
+    <string name="number_must_be_positive">يجب أن يكون الرقم موجبًا</string>
+    <string name="number_must_be_positive_or_zero">يجب أن يكون الرقم موجبًا او صفر</string>
+    <string name="you_must_enter_positive_number">يجب إدخال أرقام موجبة فقط</string>
+    <string name="number_range_min_max">يجب أن يكون بين %1$s و %2$s</string>
+    <string name="number_range_min_only">يجب أن يكون %1$s على الأقل</string>
+    <string name="number_range_max_only">يجب أن يكون %1$s على الأكثر</string>
+    <string name="number_range_exact">يجب أن يكون بالضبط %1$s</string>
+    <string name="number_range_invalid">نطاق رقم غير صالح</string>
+
+    <!-- Date -->
+    <string name="date_cannot_be_future">لا يمكن أن يكون التاريخ في المستقبل</string>
+    <string name="date_cannot_be_in_past">لا يمكن أن يكون التاريخ في الماضي</string>
+    <string name="invalid_date_range">نطاق التاريخ غير صالح</string>
+</resources>

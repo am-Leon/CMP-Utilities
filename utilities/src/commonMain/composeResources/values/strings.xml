@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="retry">Retry</string>
+    <string name="share">Share</string>
+    <string name="share_using">Share by</string>
+    <string name="whatsapp_not_installed">Please install WhatsApp app on your phone</string>
+    <string name="gmail_not_installed">Please install Gmail app in your phone</string>
+    <string name="arabic">Arabic</string>
+    <string name="english">English</string>
+
+    <!-- Required field validations -->
+    <string name="required">This field is required</string>
+    <string name="field_should_not_be_empty">This field cannot be empty</string>
+    <string name="request_key_missing">A required key is missing and must be sent to the request class</string>
+    <string name="unknown_error_occur">Unknown Error Occurred!!</string>
+
+    <!-- Character count validations -->
+    <string name="character_range_min_max">Please enter between %1$s and %2$s characters</string>
+    <string name="character_range_min_only">Please enter at least %1$s characters</string>
+    <string name="character_range_max_only">Please enter less than %1$s characters</string>
+    <string name="character_range_exact">Please enter exactly %1$s characters</string>
+    <string name="invalid_character_count">Invalid character count</string>
+    <string name="phone_digit_count_exact">Phone number must be %1$s digits</string>
+    <string name="phone_digit_count_range">Phone number must be between %1$s and %2$s digits</string>
+
+    <!-- Password validations -->
+    <string name="at_least_8_characters_and_less_than_50">At least 8 characters and less than 50 characters</string>
+    <string name="at_least_one_uppercase">At least one uppercase letter (e.g., A, B, C)</string>
+    <string name="at_least_one_lowercase">At least one lowercase letter (e.g., a, b, c)</string>
+    <string name="at_least_one_number">At least one number (e.g., 1, 2, 3)</string>
+    <string name="at_least_one_special_char">At least one special character (e.g., !, @, #, $, %%)</string>
+    <string name="password_is_not_valid">Invalid password</string>
+    <string name="matched">Matched</string>
+
+    <!-- Format validations -->
+    <string name="email_not_valid">Invalid email format. Please enter a valid email address (e.g., example@domain.com)</string>
+    <string name="phone_not_valid">Invalid phone number</string>
+    <string name="website_domain_is_not_valid">Invalid website domain</string>
+    <string name="website_protocol_is_not_valid">Website protocol is required (http:// or https://)</string>
+    <string name="website_url_contains_spaces">URL must not contain spaces</string>
+    <string name="repeated_password_are_not_the_same">Repeated password does not match</string>
+    <string name="postal_code_invalid">Postal code is not valid</string>
+    <string name="phone_not_valid_with_example">Invalid phone number (e.g. %1$s)</string>
+    <string name="postal_code_invalid_with_example">Invalid postal code (e.g. %1$s)</string>
+    <string name="phone_country_code_required">Please select a country code</string>
+    <string name="version_is_not_valid">Please enter a valid version number in the format XX.YY.ZZ (e.g., 1.2.3)</string>
+    <string name="latitude_is_not_valid">Latitude is not valid</string>
+    <string name="longitude_is_not_valid">Longitude is not valid</string>
+
+    <!-- Numbers -->
+    <string name="number_must_be_positive">The number must be positive</string>
+    <string name="number_must_be_positive_or_zero">The number must be positive or zero</string>
+    <string name="should_not_zero">Input is not valid</string>
+    <string name="you_must_enter_positive_number">You must enter only a positive numbers</string>
+    <string name="number_range_min_max">Must be between %1$s and %2$s</string>
+    <string name="number_range_min_only">Must be at least %1$s</string>
+    <string name="number_range_max_only">Must be at most %1$s</string>
+    <string name="number_range_exact">Must be exactly %1$s</string>
+    <string name="number_range_invalid">Invalid number range</string>
+
+    <!-- Date -->
+    <string name="date_cannot_be_future">Date cannot be in the future</string>
+    <string name="date_cannot_be_in_past">Date cannot be in the past</string>
+    <string name="invalid_date_range">Invalid date range</string>
+</resources>
