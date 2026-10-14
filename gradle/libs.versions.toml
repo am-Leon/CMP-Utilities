@@ -2,7 +2,7 @@
 agp = "9.4.1"
 
 # Libirary Version
-library-version = "1.0.0"
+library-version = "1.0.1"
 library-groupID = "am.leon"
 library-artifactID = "utilities"
 
