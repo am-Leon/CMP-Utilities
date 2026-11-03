@@ -9,9 +9,7 @@ import kotlinx.datetime.toNSDate
 import platform.Foundation.NSDateFormatter
 import platform.Foundation.NSLocale
 import platform.Foundation.currentLocale
-import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 actual class LocalDateTimeFormatter private constructor(private val locale: Locale) {
 
     actual fun format(localDateTime: LocalDateTime, pattern: String): String {

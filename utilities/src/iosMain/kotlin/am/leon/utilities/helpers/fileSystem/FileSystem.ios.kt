@@ -2,6 +2,13 @@
 
 package am.leon.utilities.helpers.fileSystem
 
+import am.leon.utilities.helpers.fileSystem.models.ContentEncoding
+import am.leon.utilities.helpers.fileSystem.models.FileType
+import am.leon.utilities.helpers.fileSystem.models.LeonFile
+import am.leon.utilities.helpers.fileSystem.models.Path
+import am.leon.utilities.helpers.fileSystem.models.PathComponent
+import am.leon.utilities.helpers.fileSystem.models.toByteArray
+import am.leon.utilities.helpers.fileSystem.models.toNSData
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.BooleanVar
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -10,13 +17,6 @@ import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.ptr
 import kotlinx.cinterop.value
-import am.leon.utilities.helpers.fileSystem.models.ContentEncoding
-import am.leon.utilities.helpers.fileSystem.models.FileType
-import am.leon.utilities.helpers.fileSystem.models.LeonFile
-import am.leon.utilities.helpers.fileSystem.models.Path
-import am.leon.utilities.helpers.fileSystem.models.PathComponent
-import am.leon.utilities.helpers.fileSystem.models.toByteArray
-import am.leon.utilities.helpers.fileSystem.models.toNSData
 import platform.Foundation.NSASCIIStringEncoding
 import platform.Foundation.NSCachesDirectory
 import platform.Foundation.NSData
@@ -49,8 +49,6 @@ import platform.Foundation.timeIntervalSince1970
 import platform.Foundation.writeData
 import platform.Foundation.writeToFile
 import platform.UniformTypeIdentifiers.UTType
-import kotlin.collections.get
-import kotlin.collections.iterator
 
 val String.nativeStr: NSString
     get() = NSString.create(string = this)
@@ -211,7 +209,9 @@ actual object FileSystem {
             NSFileTypeDirectory -> FileType.Directory
             else -> FileType.Unknown
         }
-        val mimeType = url.pathExtension?.let { UTType.typeWithFilenameExtension(it)?.preferredMIMEType }.orEmpty()
+        val mimeType =
+            url.pathExtension?.let { UTType.typeWithFilenameExtension(it)?.preferredMIMEType }
+                .orEmpty()
 
         return LeonFile(
             name = url.lastPathComponent ?: "",

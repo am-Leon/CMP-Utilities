@@ -57,4 +57,19 @@
     <string name="date_cannot_be_future">Date cannot be in the future</string>
     <string name="date_cannot_be_in_past">Date cannot be in the past</string>
     <string name="invalid_date_range">Invalid date range</string>
+
+    <!-- Phone and postal code formats -->
+    <string name="phone_not_valid_with_example">Invalid phone number (e.g. %1$s)</string>
+    <string name="phone_country_code_required">Please select a country code</string>
+    <string name="phone_digit_count_exact">Phone number must be %1$s digits</string>
+    <string name="phone_digit_count_range">Phone number must be between %1$s and %2$s digits</string>
+    <string name="postal_code_invalid_with_example">Invalid postal code (e.g. %1$s)</string>
+
+    <!-- Exception handling -->
+    <string name="unknown_error_occur_with_code">Unknown Error Occurred!!, Code : %1$s</string>
+    <string name="unknown_error_occur_with_code_and_message">Unknown Error Occurred!!, Code : %1$s, %2$s</string>
+    <string name="internal_server_error_with_code">Internal server error, Code : %1$s</string>
+    <string name="internal_server_error_with_code_and_message">Internal server error, Code : %1$s, %2$s</string>
+    <string name="error_retrial_message">Unexpected error occurred.</string>
+    <string name="internet_connection_error_message">Something is wrong with the internet connection, Please check it</string>
 </resources>

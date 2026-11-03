@@ -6,7 +6,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlin.text.get
 
 class CountryRulesTest {
 
@@ -270,7 +269,9 @@ class CountryRulesTest {
         countryValidationRules.forEach { (key, rule) ->
             assertEquals(key, rule.countryCode, "$key is keyed by the wrong ISO code")
             assertTrue(rule.dialCode.isNotEmpty(), "${rule.countryCode} has no dial code")
-            assertTrue(rule.dialCode.all(Char::isDigit), "${rule.countryCode} has a malformed dial code")
+            assertTrue(
+                rule.dialCode.all(Char::isDigit), "${rule.countryCode} has a malformed dial code"
+            )
         }
     }
 
@@ -281,13 +282,15 @@ class CountryRulesTest {
             isoCodes.forEach { countryCode ->
                 val rule = countryValidationRules[countryCode]
                 assertNotNull(rule, "+$dialCode indexes the unknown country $countryCode")
-                assertEquals(dialCode, rule.dialCode, "$countryCode is indexed under the wrong dial code")
+                assertEquals(
+                    dialCode, rule.dialCode,
+                    "$countryCode is indexed under the wrong dial code"
+                )
             }
         }
         countryValidationRules.values.forEach { rule ->
             assertEquals(
-                dialCodeToCountryCodes[rule.dialCode]?.contains(rule.countryCode),
-                true,
+                true, dialCodeToCountryCodes[rule.dialCode]?.contains(rule.countryCode),
                 "${rule.countryCode} is missing from the dial code index"
             )
         }
@@ -335,7 +338,10 @@ class CountryRulesTest {
         val tristanDaCunha = requireNotNull(CountryRules.forCountryCode("TA"))
         assertNull(tristanDaCunha.phonePattern)
         assertTrue(tristanDaCunha.phoneLengths.isEmpty())
-        assertFalse(tristanDaCunha.matchesPhoneNumber("8999"), "a real fixed line, still not a mobile")
+        assertFalse(
+            tristanDaCunha.matchesPhoneNumber("8999"),
+            "a real fixed line, still not a mobile"
+        )
     }
 
     @Test

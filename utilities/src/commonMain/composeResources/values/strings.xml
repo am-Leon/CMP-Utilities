@@ -62,4 +62,12 @@
     <string name="date_cannot_be_future">Date cannot be in the future</string>
     <string name="date_cannot_be_in_past">Date cannot be in the past</string>
     <string name="invalid_date_range">Invalid date range</string>
+
+    <!-- Exception handling -->
+    <string name="unknown_error_occur_with_code">Unknown Error Occurred!!, Code : %1$s</string>
+    <string name="unknown_error_occur_with_code_and_message">Unknown Error Occurred!!, Code : %1$s, %2$s</string>
+    <string name="internal_server_error_with_code">Internal server error, Code : %1$s</string>
+    <string name="internal_server_error_with_code_and_message">Internal server error, Code : %1$s, %2$s</string>
+    <string name="error_retrial_message">Unexpected error occurred.</string>
+    <string name="internet_connection_error_message">Something is wrong with the internet connection, Please check it</string>
 </resources>

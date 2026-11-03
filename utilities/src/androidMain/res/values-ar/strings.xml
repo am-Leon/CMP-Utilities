@@ -57,4 +57,19 @@
     <string name="date_cannot_be_future">لا يمكن أن يكون التاريخ في المستقبل</string>
     <string name="date_cannot_be_in_past">لا يمكن أن يكون التاريخ في الماضي</string>
     <string name="invalid_date_range">نطاق التاريخ غير صالح</string>
+
+    <!-- Phone and postal code formats -->
+    <string name="phone_not_valid_with_example">رقم جوال غير صحيح (مثال: %1$s)</string>
+    <string name="phone_country_code_required">الرجاء اختيار رمز الدولة</string>
+    <string name="phone_digit_count_exact">يجب أن يتكون رقم الجوال من %1$s أرقام</string>
+    <string name="phone_digit_count_range">يجب أن يتكون رقم الجوال من %1$s إلى %2$s أرقام</string>
+    <string name="postal_code_invalid_with_example">رمز بريدي غير صالح (مثال: %1$s)</string>
+
+    <!-- Exception handling -->
+    <string name="unknown_error_occur_with_code">حدث خطأ غير معروف!!، الكود: %1$s</string>
+    <string name="unknown_error_occur_with_code_and_message">حدث خطأ غير معروف!!، الكود: %1$s، %2$s</string>
+    <string name="internal_server_error_with_code">خطأ في الخادم، الكود: %1$s</string>
+    <string name="internal_server_error_with_code_and_message">خطأ في الخادم، الكود: %1$s، %2$s</string>
+    <string name="error_retrial_message">حدث خطأ غير متوقع.</string>
+    <string name="internet_connection_error_message">هناك خطأ في اتصال الإنترنت يرجى التحقق منه</string>
 </resources>

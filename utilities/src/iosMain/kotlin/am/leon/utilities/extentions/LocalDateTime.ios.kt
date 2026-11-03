@@ -9,7 +9,6 @@ import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toNSDate
 import platform.Foundation.NSDate
-import kotlin.time.ExperimentalTime
 
 actual typealias PlatformDateTime = NSDate
 
@@ -25,7 +24,8 @@ actual fun PlatformDateTime.toLocalDateTime(): LocalDateTime =
 
 actual fun LocalDate.toPlatformDate(): PlatformDate = this.atStartOfDayIn(TimeZone.UTC).toNSDate()
 
-actual fun PlatformDate.toLocalDate(): LocalDate = this.toKotlinInstant().toLocalDateTime(TimeZone.UTC).date
+actual fun PlatformDate.toLocalDate(): LocalDate =
+    this.toKotlinInstant().toLocalDateTime(TimeZone.UTC).date
 
 actual fun LocalTime.toPlatformTime(): PlatformTime =
     this.atDate(LocalDate.now()).toInstant(TimeZone.currentSystemDefault()).toNSDate()

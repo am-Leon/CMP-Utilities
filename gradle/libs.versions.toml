@@ -1,25 +1,34 @@
 [versions]
-agp = "9.4.1"
+agp = "9.5.0"
 
 # Libirary Version
 library-version = "1.0.1"
 library-groupID = "am.leon"
 library-artifactID = "utilities"
+library-presentation-artifactID = "utilities-presentation"
 
 # Android
 android-material = "1.14.0"
+android-annotation = "1.11.0"
+android-lifecycle = "2.11.0"
 
 # Kotlin
-kotlin = "2.4.10"
-kotlin-serialization-json = "1.11.0"
+kotlin = "2.4.21"
+kotlin-serialization-json = "1.12.0"
 kotlin-coroutines = "1.11.0"
 kotlin-datetime = "0.8.0"
 
 # Compose
-compose-multiplatform = "1.12.1"
+compose-multiplatform = "1.12.2"
 
-# SKIE
-skie = "0.10.15"
+# Koin
+koin = "4.2.2"
+
+# Navigation
+navigation3 = "1.2.0"
+
+# Leon
+leon-navigation = "1.0.0"
 
 # Maven
 mavenPublish = "0.37.0"
@@ -27,6 +36,9 @@ mavenPublish = "0.37.0"
 [libraries]
 # Android
 android-material = { group = "com.google.android.material", name = "material", version.ref = "android-material" }
+android-annotation = { module = "androidx.annotation:annotation", version.ref = "android-annotation" }
+android-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "android-lifecycle" }
+android-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "android-lifecycle" }
 
 # Kotlin
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
@@ -34,11 +46,22 @@ kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializat
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 
 # Compose
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
+
+# Koin
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+
+# Navigation
+navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
+
+# Leon
+leon-navigation = { module = "io.github.am-leon:cmp-navigation", version.ref = "leon-navigation" }
 
 [plugins]
 # Android
@@ -51,9 +74,6 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 # Compose
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-
-# SKIE
-touchlab-skie = { id = "co.touchlab.skie", version.ref = "skie" }
 
 # Maven
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
