@@ -49,6 +49,9 @@ interface IExceptionHandlerEvent {
         IExceptionHandlerEvent
 
     data object AuthorizationRequired : IExceptionHandlerEvent
+
+    data class UnHandledClientException(val httpCode: Int, val message: String?) :
+        IExceptionHandlerEvent
 }
 
 /**

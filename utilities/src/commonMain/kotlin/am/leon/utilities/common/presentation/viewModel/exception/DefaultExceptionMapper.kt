@@ -5,12 +5,9 @@ import am.leon.utilities.extentions.IString
 import am.leon.utilities.extentions.mapToCombinedString
 import am.leon.utilities.generated.resources.Res
 import am.leon.utilities.generated.resources.error_retrial_message
-import am.leon.utilities.generated.resources.internal_server_error_with_code
 import am.leon.utilities.generated.resources.internal_server_error_with_code_and_message
-import am.leon.utilities.generated.resources.internet_connection_error_message
 import am.leon.utilities.generated.resources.unknown_error_occur
 import am.leon.utilities.generated.resources.unknown_error_occur_with_code
-import am.leon.utilities.generated.resources.unknown_error_occur_with_code_and_message
 import am.leon.utilities.helpers.inputField.IInputFieldError
 import org.jetbrains.compose.resources.StringResource
 
@@ -47,15 +44,29 @@ class DefaultExceptionMapper(
             )
 
             is LeonException.Client.Unauthorized -> IExceptionHandlerEvent.AuthorizationRequired
-            is LeonException.Client.Unhandled -> handleUnhandledException(exception)
-            is LeonException.Local.IOOperation -> handleIOOperationException()
+
+            is LeonException.Client.Unhandled -> IExceptionHandlerEvent.UnHandledClientException(
+                httpCode = exception.httpErrorCode, message = exception.message
+            )
+
+            is LeonException.Local.IOOperation -> handleIOOperationException(exception.message)
+
             is LeonException.Local.RequestValidation -> handleRequestValidationException(exception)
-            is LeonException.Network.Retrial -> handleRetrialException()
+
+            is LeonException.Network.Retrial -> handleRetrialException(exception.message)
+
             is LeonException.Server.InternalServerError -> handleInternalServerErrorException(
                 exception
             )
 
-            else -> handleUnknownException() // Handles these cases [Unknown, Network.Unhandled]
+            // Handles these cases [Unknown, Network.Unhandled]
+            else -> {
+                val message =
+                    exception.message?.takeIf { it.isNotBlank() }?.let(IString::Raw) ?: getMessage(
+                        Res.string.unknown_error_occur
+                    )
+                IExceptionHandlerEvent.ShowMessage(message = message)
+            }
         }
     }
 
@@ -69,26 +80,17 @@ class DefaultExceptionMapper(
         )
     }
 
-    private fun handleUnhandledException(exception: LeonException.Client.Unhandled): IExceptionHandlerEvent {
-        val message = if (exception.message.isNullOrBlank()) getMessage(
-            messageRes = Res.string.unknown_error_occur_with_code, exception.httpErrorCode
-        )
-        else getMessage(
-            messageRes = Res.string.unknown_error_occur_with_code_and_message,
-            exception.httpErrorCode, exception.message
-        )
-        return IExceptionHandlerEvent.ShowMessage(message)
-    }
-
-    private fun handleIOOperationException(): IExceptionHandlerEvent {
+    private fun handleIOOperationException(message: String?): IExceptionHandlerEvent {
         return IExceptionHandlerEvent.ShowMessage(
-            message = getMessage(Res.string.error_retrial_message), withRetryAction = true
+            message = message?.takeIf { it.isNotBlank() }?.let(IString::Raw)
+                ?: getMessage(Res.string.unknown_error_occur), withRetryAction = true
         )
     }
 
     private fun handleRequestValidationException(exception: LeonException.Local.RequestValidation): IExceptionHandlerEvent {
         return if (exception.validationErrors.isNullOrEmpty()) IExceptionHandlerEvent.ShowMessage(
-            message = getMessage(Res.string.unknown_error_occur)
+            message = exception.message?.takeIf { it.isNotBlank() }?.let(IString::Raw)
+                ?: getMessage(Res.string.unknown_error_occur)
         )
         else IExceptionHandlerEvent.HandleValidationErrors(
             errors = exception.validationErrors
@@ -96,16 +98,16 @@ class DefaultExceptionMapper(
         )
     }
 
-    private fun handleRetrialException(): IExceptionHandlerEvent {
+    private fun handleRetrialException(message: String?): IExceptionHandlerEvent {
         return IExceptionHandlerEvent.ShowMessage(
-            message = getMessage(Res.string.internet_connection_error_message),
-            withRetryAction = true
+            message = message?.takeIf { it.isNotBlank() }?.let(IString::Raw)
+                ?: getMessage(Res.string.error_retrial_message), withRetryAction = true
         )
     }
 
     private fun handleInternalServerErrorException(exception: LeonException.Server.InternalServerError): IExceptionHandlerEvent {
         val message = if (exception.message.isNullOrBlank()) getMessage(
-            messageRes = Res.string.internal_server_error_with_code, exception.httpErrorCode
+            messageRes = Res.string.unknown_error_occur_with_code, exception.httpErrorCode
         )
         else getMessage(
             messageRes = Res.string.internal_server_error_with_code_and_message,
@@ -113,10 +115,6 @@ class DefaultExceptionMapper(
         )
 
         return IExceptionHandlerEvent.ShowMessage(message)
-    }
-
-    private fun handleUnknownException(): IExceptionHandlerEvent {
-        return IExceptionHandlerEvent.ShowMessage(message = getMessage(Res.string.unknown_error_occur))
     }
 
     private fun getMessage(messageRes: StringResource, vararg formatArgs: Any): IString {

@@ -148,9 +148,15 @@ internal class CheckoutVM(vmCore: AppVMCore) :
     }
 
     override fun presentAppExceptionEvent(event: IExceptionHandlerEvent) {
-        if (event is CheckoutExceptionEvent.PaymentRequired) {
-            paywallShown = true
-            analytics.event("paywall_shown")
+        when (event) {
+            is IExceptionHandlerEvent.HandleValidationErrors -> Unit
+
+            is IExceptionHandlerEvent.UnHandledClientException -> Unit
+
+            is CheckoutExceptionEvent.PaymentRequired -> {
+                paywallShown = true
+                analytics.event("paywall_shown")
+            }
         }
     }
 

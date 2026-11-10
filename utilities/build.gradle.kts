@@ -43,6 +43,9 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.kotlin.reflect)
             implementation(libs.android.material)
+            // AppCompat owns the per-app locale on Android (AppCompatDelegate.setApplicationLocales).
+            // Declared rather than taken from material, which happens to depend on it today.
+            implementation(libs.android.appcompat)
         }
 
         commonMain.dependencies {

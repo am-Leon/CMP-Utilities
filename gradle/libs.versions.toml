@@ -1,5 +1,5 @@
 [versions]
-agp = "9.5.0"
+agp = "9.5.1"
 
 # Libirary Version
 library-version = "1.0.1"
@@ -9,6 +9,7 @@ library-presentation-artifactID = "utilities-presentation"
 
 # Android
 android-material = "1.14.0"
+android-appcompat = "1.8.0"
 android-annotation = "1.11.0"
 android-lifecycle = "2.11.0"
 
@@ -25,7 +26,7 @@ compose-multiplatform = "1.12.2"
 koin = "4.2.2"
 
 # Navigation
-navigation3 = "1.2.0"
+navigation3 = "1.2.1"
 
 # Leon
 leon-navigation = "1.0.0"
@@ -36,6 +37,7 @@ mavenPublish = "0.37.0"
 [libraries]
 # Android
 android-material = { group = "com.google.android.material", name = "material", version.ref = "android-material" }
+android-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "android-appcompat" }
 android-annotation = { module = "androidx.annotation:annotation", version.ref = "android-annotation" }
 android-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "android-lifecycle" }
 android-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "android-lifecycle" }
