@@ -11,16 +11,14 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 
 /**
- * Acts as a contract for all the use cases in our application:
- * Abstract class for a Use Case (Interact in terms of Clean Architecture).
- * This abstraction represents an execution unit for different use cases (this means that any use
- * case in the application should implement this contract).
+ * One unit of work that runs, emits, and ends. [ObserveUseCase] is the sibling for a source that
+ * never ends.
  *
- * @param Domain: the result returned after mapping the response to to the View
- * @param Body: a parameters class which will be consumed inside the [invoke] function
- *                in case we need extra data for our use case.
+ * Subclasses implement [invoke] in terms of [executeRemote] or [executeLocal], which wrap the call
+ * in a flow that reports loading, failure and success as [Resource]s.
  *
- * @author Abduelrahman Elemam
+ * @param Domain the model handed to the view.
+ * @param Body the parameters the call needs, when it needs any.
  */
 abstract class UseCase<out Domain, in Body> {
 
@@ -98,13 +96,19 @@ abstract class UseCase<out Domain, in Body> {
         if (multipleInvoke.not())
             emit(Resource.loading())
     }.catch { exception ->
-        val failureResource = exception as? LeonException
-            ?: LeonException.Unknown(message = "Unknown error while executing the use case: $exception")
+        val failureResource = exception.asLeonException(action = "executing the use case")
 
         emit(wrapOnComplete(Resource.failure(failureResource), onComplete))
         emit(Resource.loading(loading = false))
     }.flowOn(Dispatchers.IO)
 }
+
+/**
+ * The [LeonException] this threw, or an [LeonException.Unknown] naming what was being done.
+ * Shared by [UseCase] and [ObserveUseCase] so the wording does not get rewritten per use case.
+ */
+internal fun Throwable.asLeonException(action: String): LeonException = this as? LeonException
+    ?: LeonException.Unknown(message = "Unknown error while $action: $this")
 
 private suspend fun <Domain> wrapOnComplete(
     resource: Resource<Domain>, onComplete: (suspend (Resource<Domain>) -> Resource<Domain>)?

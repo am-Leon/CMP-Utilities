@@ -9,7 +9,6 @@ import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 expect class PlatformDateTime
@@ -82,16 +81,19 @@ fun LocalDateTime.toInstant(timeZone: TimeZone = TimeZone.currentSystemDefault()
 
 fun LocalDate.toEpochMilliseconds(
     timeZone: TimeZone = TimeZone.UTC, default: Instant = Instant.MIN
-): Long =
-    runCatching { this.atStartOfDayIn(timeZone).toEpochMilliseconds() }.getOrDefault(default.toEpochMilliseconds())
+): Long = runCatching {
+    this.atStartOfDayIn(timeZone).toEpochMilliseconds()
+}.getOrDefault(default.toEpochMilliseconds())
 
-fun LocalTime.toEpochMilliseconds(default: Instant = Instant.MIN): Long =
-    runCatching { this.atDate(LocalDate.MIN).toEpochMilliseconds() }.getOrDefault(default.toEpochMilliseconds())
+fun LocalTime.toEpochMilliseconds(default: Instant = Instant.MIN): Long = runCatching {
+    this.atDate(LocalDate.MIN).toEpochMilliseconds()
+}.getOrDefault(default.toEpochMilliseconds())
 
 fun LocalDateTime.toEpochMilliseconds(
     timeZone: TimeZone = TimeZone.UTC, default: Instant = Instant.MIN
-): Long =
-    runCatching { this.toInstant(timeZone).toEpochMilliseconds() }.getOrDefault(default.toEpochMilliseconds())
+): Long = runCatching {
+    this.toInstant(timeZone).toEpochMilliseconds()
+}.getOrDefault(default.toEpochMilliseconds())
 
 fun LocalDateTime.Companion.fromString(
     isoString: String?, default: LocalDateTime = LocalDateTime.MIN

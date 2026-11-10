@@ -1,5 +1,6 @@
 package am.leon.utilities.helpers.inputField
 
+import am.leon.utilities.common.data.consts.Constants
 import am.leon.utilities.extentions.toPlainString
 
 interface IInputFieldKey {
@@ -63,6 +64,12 @@ sealed interface InputFieldPostalCodeError : IInputFieldError {
 
     data class InvalidFormat(val countryCode: String, val example: String?) :
         InputFieldPostalCodeError
+}
+
+enum class InputFieldKey(override val title: String) : IInputFieldKey {
+    PAGINATION(Constants.RequestKeys.PAGINATION),
+    PAGE(Constants.RequestKeys.PAGE),
+    ALL(Constants.RequestKeys.ALL)
 }
 
 enum class InputFieldError(override val title: String) : IInputFieldError {

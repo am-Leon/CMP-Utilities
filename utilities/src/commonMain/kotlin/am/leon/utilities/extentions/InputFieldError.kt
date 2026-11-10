@@ -50,29 +50,23 @@ import am.leon.utilities.helpers.inputField.InputFieldPostalCodeError
 import am.leon.utilities.helpers.inputField.InputFieldStringCountError
 import org.jetbrains.compose.resources.StringResource
 
-fun Set<IInputFieldError>.mapToCombinedString(block: (IInputFieldError) -> IString? = { null }): IString.Combined {
-    val errorMessages = map { fieldError ->
-        when (fieldError) {
-            is InputFieldError -> fieldError.getErrorMessage()
-            is InputFieldStringCountError.Range -> fieldError.getErrorMessage()
-            is InputFieldStringCountError.ExactCount -> fieldError.getErrorMessage()
-            is InputFieldNumberRangeError.Range<*> -> fieldError.getErrorMessage()
-            is InputFieldNumberRangeError.ExactValue<*> -> fieldError.getErrorMessage()
-            is InputFieldPhoneError -> fieldError.getErrorMessage()
-            is InputFieldPostalCodeError -> fieldError.getErrorMessage()
-            else -> block.invoke(fieldError) ?: IString.MultiplatformRes(Res.string.unknown_error_occur)
-        }
-    }.toSet()
+/**
+ * @param block maps an [IInputFieldError] this library does not know - an app's own error type -
+ * to its message. Anything it leaves null falls back to the generic unknown-error string.
+ */
+fun Set<IInputFieldError>.mapToCombinedString(block: (IInputFieldError) -> IString? = { null }): IString.Combined =
+    IString.Combined(map { it.toStringContent(block) }.toSet())
 
-    return IString.Combined(errorMessages)
-}
-
-fun InputFieldError.getErrorMessage(): IString {
+// Dispatch arms of [toStringContent] below, one per error type this library owns. Internal
+// because every receiver here is a closed type - an enum or a sealed hierarchy - so an app
+// can never hold one it defined itself. Apps map their own errors through that function's
+// `fallback`, or `mapToCombinedString`'s `block`.
+internal fun InputFieldError.getErrorMessage(): IString {
     val errorResource = InputFieldErrorMessage.getOrElse(this) { Res.string.unknown_error_occur }
     return IString.MultiplatformRes(errorResource)
 }
 
-fun InputFieldStringCountError.Range.getErrorMessage(): IString {
+internal fun InputFieldStringCountError.Range.getErrorMessage(): IString {
     return when {
         minCount != null && maxCount != null && minCount != maxCount ->
             IString.MultiplatformRes(Res.string.character_range_min_max, minCount, maxCount)
@@ -89,11 +83,11 @@ fun InputFieldStringCountError.Range.getErrorMessage(): IString {
     }
 }
 
-fun InputFieldStringCountError.ExactCount.getErrorMessage(): IString {
+internal fun InputFieldStringCountError.ExactCount.getErrorMessage(): IString {
     return IString.MultiplatformRes(Res.string.character_range_exact, count)
 }
 
-fun InputFieldNumberRangeError.Range<*>.getErrorMessage(): IString {
+internal fun InputFieldNumberRangeError.Range<*>.getErrorMessage(): IString {
     return when {
         minValueString != null && maxValueString != null && minValueString != maxValueString -> IString.MultiplatformRes(
             Res.string.number_range_min_max, minValueString.orEmpty(), maxValueString.orEmpty()
@@ -113,15 +107,18 @@ fun InputFieldNumberRangeError.Range<*>.getErrorMessage(): IString {
     }
 }
 
-fun InputFieldNumberRangeError.ExactValue<*>.getErrorMessage(): IString {
+internal fun InputFieldNumberRangeError.ExactValue<*>.getErrorMessage(): IString {
     return IString.MultiplatformRes(Res.string.number_range_exact, valueString.orEmpty())
 }
 
-fun InputFieldPhoneError.getErrorMessage(): IString = when (this) {
+internal fun InputFieldPhoneError.getErrorMessage(): IString = when (this) {
     is InputFieldPhoneError.InvalidDigitCount -> digitCountErrorMessage()
 
     is InputFieldPhoneError.InvalidFormat -> when {
-        example != null -> IString.MultiplatformRes(Res.string.phone_not_valid_with_example, example)
+        example != null -> IString.MultiplatformRes(
+            Res.string.phone_not_valid_with_example, example
+        )
+
         else -> IString.MultiplatformRes(Res.string.phone_not_valid)
     }
 
@@ -145,7 +142,7 @@ private fun InputFieldPhoneError.InvalidDigitCount.digitCountErrorMessage(): ISt
     }
 }
 
-fun InputFieldPostalCodeError.getErrorMessage(): IString = when (this) {
+internal fun InputFieldPostalCodeError.getErrorMessage(): IString = when (this) {
     is InputFieldPostalCodeError.InvalidFormat -> when {
         example != null ->
             IString.MultiplatformRes(Res.string.postal_code_invalid_with_example, example)
@@ -196,3 +193,22 @@ private val InputFieldErrorMessage: Map<InputFieldError, StringResource> = mapOf
     InputFieldError.DATE_CANNOT_BE_IN_PAST to Res.string.date_cannot_be_in_past,
     InputFieldError.INVALID_DATE_RANGE to Res.string.invalid_date_range,
 )
+
+/**
+ * The message for this error.
+ *
+ * @param fallback maps an error type this library does not know - [IInputFieldError] is a plain
+ * interface, so apps define their own - to its message. Without it such an error can only render
+ * as the generic unknown-error string.
+ */
+fun IInputFieldError.toStringContent(fallback: (IInputFieldError) -> IString? = { null }): IString =
+    when (this) {
+        is InputFieldError -> getErrorMessage()
+        is InputFieldStringCountError.Range -> getErrorMessage()
+        is InputFieldStringCountError.ExactCount -> getErrorMessage()
+        is InputFieldNumberRangeError.Range<*> -> getErrorMessage()
+        is InputFieldNumberRangeError.ExactValue<*> -> getErrorMessage()
+        is InputFieldPhoneError -> getErrorMessage()
+        is InputFieldPostalCodeError -> getErrorMessage()
+        else -> fallback.invoke(this) ?: IString.MultiplatformRes(Res.string.unknown_error_occur)
+    }

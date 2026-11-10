@@ -1,3 +1,4 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
     repositories {
         google {
@@ -24,3 +25,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "CMP-Utilities"
 include(":utilities")
+include(":presentation")
