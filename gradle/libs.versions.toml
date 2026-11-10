@@ -8,7 +8,6 @@ library-artifactID = "utilities"
 library-presentation-artifactID = "utilities-presentation"
 
 # Android
-android-material = "1.14.0"
 android-appcompat = "1.8.0"
 android-annotation = "1.11.0"
 android-lifecycle = "2.11.0"
@@ -36,7 +35,6 @@ mavenPublish = "0.37.0"
 
 [libraries]
 # Android
-android-material = { group = "com.google.android.material", name = "material", version.ref = "android-material" }
 android-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "android-appcompat" }
 android-annotation = { module = "androidx.annotation:annotation", version.ref = "android-annotation" }
 android-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "android-lifecycle" }
@@ -45,7 +43,6 @@ android-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecyc
 # Kotlin
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
-kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }

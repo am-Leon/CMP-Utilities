@@ -56,7 +56,6 @@ kotlin {
 
             // Compose
             api(libs.compose.runtime)
-            api(libs.compose.components.resources)
 
             // Lifecycle
             api(libs.android.lifecycle.viewmodel.compose)
@@ -68,6 +67,13 @@ kotlin {
 
             // Navigation
             api(libs.leon.navigation)
+            // Nothing here imports it, and it still cannot go: cmp-navigation's IDestination
+            // extends navigation3's NavKey but declares navigation3 as `implementation`, so it is
+            // runtime-scope in its POM and off the Android compile classpath - dropping this fails
+            // compileAndroidMain with "Cannot access NavKey which is a supertype of IDestination".
+            // The native targets compile either way, klib dependencies being transitive, so an iOS
+            // build is no proof this is unused. `api` so an app writing its own IDestination sees
+            // NavKey too.
             api(libs.navigation3.runtime)
 
             // Kotlin

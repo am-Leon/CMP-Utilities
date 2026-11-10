@@ -84,6 +84,15 @@ abstract class ScreenVM<Action : IAction, Event : IEvent, State : IState, Destin
     /** How many of the controller's loading count this VM is holding, so it gives back no more. */
     private var ownedLoading = 0
 
+    /**
+     * How many calls this VM has routed to the refresh spinner instead of the blocking indicator.
+     *
+     * Counted rather than flagged because [isRefreshingAction] alone cannot tell the refresh's own
+     * call apart from one that was already running when the user pulled: whichever finished first
+     * would take the other's place, stranding the indicator or hiding it early.
+     */
+    private var refreshingOwned = 0
+
     protected val isCurrentDestination: Boolean
         get() = appEventController.currentDestination.value == destination
 
@@ -240,24 +249,53 @@ abstract class ScreenVM<Action : IAction, Event : IEvent, State : IState, Destin
      * spin over it. Turning it **off** is not, or a ViewModel that navigated away would strand the
      * indicator - but it gives back only what it took ([ownedLoading]), since the controller counts
      * callers and an unmatched "off" would clear the count another screen is holding.
+     *
+     * While a pull-to-refresh is pending, calls started by it are counted separately
+     * ([refreshingOwned]) and drive the refresh spinner instead. Both counts are symmetric, so
+     * whichever call finishes first, each indicator is released exactly once.
      */
     final override fun emit(isLoading: Boolean) {
         if (isLoading && !isCurrentDestination) return
 
-        if (isRefreshingAction) {
-            appEventController.setRefreshing(isLoading)
-            if (!isLoading) isRefreshingAction = false
-        } else if (isLoading) {
-            ownedLoading++
-            appEventController.setLoading(isLoading = true)
-        } else {
-            // Give back only what this VM took. The matching "on" is skipped for a VM that is not
-            // the current destination, and decrementing anyway would clear a count that the
-            // screen in front is still holding.
-            if (ownedLoading == 0) return
-            ownedLoading--
-            appEventController.setLoading(isLoading = false)
+        if (isLoading) {
+            // While a pull-to-refresh is pending, the call it started drives the refresh spinner;
+            // anything else still drives the blocking indicator.
+            if (isRefreshingAction) {
+                refreshingOwned++
+                appEventController.setRefreshing(true)
+            } else {
+                ownedLoading++
+                appEventController.setLoading(isLoading = true)
+            }
+            return
         }
+
+        // The refresh branch gives back exactly as many "off"s as it took "on"s, so a call that
+        // was already running when the user pulled can no longer be mistaken for the refresh's
+        // own - and the spinner stays up until every diverted call has finished, not just the
+        // first one.
+        if (refreshingOwned > 0) {
+            refreshingOwned--
+            if (refreshingOwned == 0) {
+                appEventController.setRefreshing(false)
+                isRefreshingAction = false
+            }
+            return
+        }
+
+        // A refresh whose onRefresh() started no managed call of its own ends here, rather than
+        // leaving the flag set to divert the next ordinary load into the pull spinner.
+        if (isRefreshingAction) {
+            isRefreshingAction = false
+            appEventController.setRefreshing(false)
+        }
+
+        // Give back only what this VM took. The matching "on" is skipped for a VM that is not
+        // the current destination, and decrementing anyway would clear a count that the
+        // screen in front is still holding.
+        if (ownedLoading == 0) return
+        ownedLoading--
+        appEventController.setLoading(isLoading = false)
     }
 
     /**
